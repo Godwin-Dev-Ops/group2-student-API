@@ -69,7 +69,7 @@ require('dotenv').config();
 //Importing express
 
 const express = require("express");
-const errorHandler = require('./middleware/errorHandler');
+//const errorHandler = require('./middleware/errorHandler');
 
 
 //creating express app
@@ -77,7 +77,7 @@ const app = express();
 
 //middleware body passing
 app.use(express.json());
-app.use(errorHandler);
+//app.use(errorHandler);
 
 //Global error handling
 // middleware/errorHandler.js
