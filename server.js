@@ -62,6 +62,30 @@ const students = [
 ];
 
 
+
+//loading environment variables
+require('dotenv').config();
+
+//Importing express
+
+const express = require("express");
+const errorHandler = require('./middleware/errorHandler');
+
+
+//creating express app
+const app = express();
+
+//middleware body passing
+app.use(express.json());
+app.use(errorHandler);
+
+//Global error handling
+// middleware/errorHandler.js
+module.exports = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal Server Error' });
+};
+
 // 4. PUT: Edit an existing student
 app.put('/api/students/:id', (req, res) => {
     const id = parseInt(req.params.id);
@@ -91,4 +115,12 @@ app.delete('/api/students/:id', (req, res) => {
     }
 
     res.status(200).json({ message: `Student with ID ${id} deleted successfully.` });
+});
+
+//starting server
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT,() =>{
+	console.log(`App is running on port:${PORT}`);
 });
