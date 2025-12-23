@@ -60,3 +60,35 @@ const students = [
     enrollmentDate: "2024-09-01",
   },
 ];
+
+
+// 4. PUT: Edit an existing student
+app.put('/api/students/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = students.findIndex(s => s.id === id);
+
+    if (index === -1) {
+        const error = new Error('Student not found');
+        error.status = 404;
+        throw error;
+    }
+
+    // Update the student data
+    students[index] = { ...students[index], ...req.body, id }; // Ensure ID stays the same
+    res.status(200).json(students[index]);
+});
+
+// 5. DELETE: Remove a student
+app.delete('/api/students/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const initialLength = students.length;
+    students = students.filter(s => s.id !== id);
+
+    if (students.length === initialLength) {
+        const error = new Error('Student not found');
+        error.status = 404;
+        throw error;
+    }
+
+    res.status(200).json({ message: `Student with ID ${id} deleted successfully.` });
+});
