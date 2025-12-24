@@ -1,10 +1,13 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+dotenv.config();
 
 const app = express();
-const PORT = 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // STUDENTS DATA
 let students = [
@@ -71,26 +74,34 @@ let students = [
 ];
 
 // ROOT TEST ROUTE
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
   res.send("Student API is running");
 });
 
 // 1️⃣ GET: All students
 app.get("/api/students", (req, res) => {
-  res.status(200).json(students);
+  res.status(200).json({
+    count: students.length,
+    students,
+  });
+});
+
+//extra : Get by id
+app.get("/api/students/:id", (req, res) => {
+  const { id } = req.params;
+  const isExisiting = students.find((s) => s.id === id);
+
+  if (isExisiting) {
+    res.status(200).json(isExisiting);
+  } else {
+    res.status(404).json({ message: "Student not found" });
+  }
 });
 
 // 2️⃣ POST: Add new student
 app.post("/api/students", (req, res) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    age,
-    gender,
-    course,
-    enrollmentDate,
-  } = req.body;
+  const { firstName, lastName, email, age, gender, course, enrollmentDate } =
+    req.body;
 
   if (
     !firstName ||
@@ -102,6 +113,15 @@ app.post("/api/students", (req, res) => {
     !enrollmentDate
   ) {
     return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (email.includes("@") === false) {
+    return res.status(400).json({ message: "Invalid email" });
+  }
+
+  const isExisiting = students.find((s) => s.email === email);
+  if (isExisiting) {
+    return res.status(400).json({ message: "Student Already Exists" });
   }
 
   const newStudent = {
@@ -119,8 +139,8 @@ app.post("/api/students", (req, res) => {
   res.status(201).json(newStudent);
 });
 
-// 3️⃣ PUT: Update student
-app.put("/api/students/:id", (req, res) => {
+// 3️⃣ Patch: Update student
+app.patch("/api/students/:id", (req, res) => {
   const { id } = req.params;
   const index = students.findIndex((s) => s.id === id);
 
@@ -147,6 +167,6 @@ app.delete("/api/students/:id", (req, res) => {
 });
 
 // START SERVER
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(dotenv.config().parsed.PORT, () => {
+  console.log(`Server is running on port ${dotenv.config().parsed.PORT}`);
 });
