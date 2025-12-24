@@ -1,11 +1,10 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-dotenv.config();
+const express = require("express"); //import express
+const dotenv = require("dotenv"); //Load environment variables from .env file
+const cors = require("cors"); //Load CORS middleware
+dotenv.config(); //Configure dotenv
+const app = express(); //Create express app
 
-const app = express();
-
-// Middleware
+//body parsing middleware
 app.use(express.json());
 app.use(cors());
 
@@ -78,7 +77,7 @@ app.get("/health", (req, res) => {
   res.send("Student API is running");
 });
 
-// 1️⃣ GET: All students
+//  GET: All students
 app.get("/api/students", (req, res) => {
   res.status(200).json({
     count: students.length,
@@ -98,7 +97,7 @@ app.get("/api/students/:id", (req, res) => {
   }
 });
 
-// 2️⃣ POST: Add new student
+//  POST: Add new student
 app.post("/api/students", (req, res) => {
   const { firstName, lastName, email, age, gender, course, enrollmentDate } =
     req.body;
@@ -139,7 +138,7 @@ app.post("/api/students", (req, res) => {
   res.status(201).json(newStudent);
 });
 
-// 3️⃣ Patch: Update student
+//  Patch: Update student
 app.patch("/api/students/:id", (req, res) => {
   const { id } = req.params;
   const index = students.findIndex((s) => s.id === id);
@@ -152,7 +151,7 @@ app.patch("/api/students/:id", (req, res) => {
   res.status(200).json(students[index]);
 });
 
-// 4️⃣ DELETE: Remove student
+//  DELETE: Remove student
 app.delete("/api/students/:id", (req, res) => {
   const { id } = req.params;
   const initialLength = students.length;

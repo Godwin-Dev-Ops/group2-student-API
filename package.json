@@ -1,7 +1,7 @@
 {
   "name": "bt-bd-group-2",
   "version": "1.0.0",
-  "description": "",
+  "description": "- npm init -y\r - npm install express\r - npm i --save-dev nodemon\r - npm install dotenv",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,5 +19,13 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Godwin-Dev-Ops/group2-student-API.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Godwin-Dev-Ops/group2-student-API/issues"
+  },
+  "homepage": "https://github.com/Godwin-Dev-Ops/group2-student-API#readme"
 }
