@@ -41,13 +41,8 @@ This API allows you to create, read, update, and delete (CRUD) student records u
    Or (if using nodemon):
    nodemon index.js
 
-## Health Check
 
-GET /health
-Response
-Student API is running
-
-API Endpoints
+## API Endpoints
 
 ## Get all students
 
@@ -158,3 +153,4 @@ DELETE /api/students/:id
 -Data is stored in-memory (resets when the server restarts)
 -Suitable for learning and testing REST APIs
 -Can be extended with a database (MongoDB, PostgreSQL, etc.)
+
